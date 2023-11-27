@@ -32,10 +32,10 @@ export default function RightInfos() {
 const CityAndCoordinates = styled.div`
     display:flex;
     flex-direction: column;
-
+    margin-bottom:25px;
     h1{
         font-family: Poppins;
-        font-size: 100px;
+        font-size: 80px;
         font-weight: 400;
         line-height: 48px;
         letter-spacing: 0em;
@@ -50,7 +50,7 @@ const CityAndCoordinates = styled.div`
         letter-spacing: 0em;
         text-align: left;
         color: #222222;
-        margin-top: 20px;
+        margin-top: 10px;
         margin-left: 5px;
     }
     span{
