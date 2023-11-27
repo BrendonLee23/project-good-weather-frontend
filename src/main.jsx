@@ -5,9 +5,9 @@ import ResetStyle from './styles/ResetStyle.jsx'
 import { GlobalStyle } from './styles/GlobalStyle.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <React.Profiler>
     <GlobalStyle/>
     <ResetStyle/>
     <App />
-  </React.StrictMode>,
+  </React.Profiler>,
 )

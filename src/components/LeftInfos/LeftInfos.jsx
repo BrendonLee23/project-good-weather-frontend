@@ -2,8 +2,45 @@ import { styled } from "styled-components";
 import Casaco from "../../assets/casaco.svg";
 import Lupa from "../../assets/lupa.svg";
 import { FormControlLabel, FormGroup, Switch } from "@mui/material";
+import { useContext, useState } from "react";
+import axios from "axios";
+import InfoContext from "../../contexts/InfoContext";
 
 export default function LeftInfos() {
+    const { apiKey, setWeatherData, weatherData } = useContext(InfoContext)
+    const [city, setCity] = useState('');
+    const currentDate = new Date();
+    const optionsDate = { year: 'numeric', month: 'numeric', day: 'numeric' }
+    const formattedDate = currentDate.toLocaleDateString('pt-BR', optionsDate);
+    const optionsWeekday = { weekday: 'long'};
+    const formattedWeekday = currentDate.toLocaleDateString('pt-BR', optionsWeekday);
+    const optionsHours = { hour: 'numeric', minute: 'numeric' };
+    const formattedTime = currentDate.toLocaleTimeString('pt-BR', optionsHours);
+    const kelvinToCelsius = (kelvin) => kelvin - 273.15;
+
+    const temperature = weatherData ? Math.round(kelvinToCelsius(weatherData.main.temp)) : 0;
+    const weatherDescription = weatherData ? weatherData.weather[0].description : "- -";
+
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
+            setWeatherData(response.data);
+        } catch (error) {
+            console.error('Erro ao obter dados do clima:', error);
+        }
+    };
+
+    const handleSearch = () => {
+        fetchData();
+    };
+
+    const handleEnterPress = (event) => {
+        if (event.key === 'Enter') {
+            fetchData();
+        }
+    };
+
     return (
         <LeftInfosContainer>
             <Title>
@@ -11,17 +48,21 @@ export default function LeftInfos() {
                 <h1>Levo um casaquinho?</h1>
             </Title>
             <InputContainer>
-                <img src={Lupa} alt="Lupa" />
-                <input type="text" placeholder="Procure por uma cidade" />
+                <img src={Lupa} alt="Lupa" onClick={handleSearch} />
+                <input type="text"
+                    placeholder="Procure por uma cidade"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    onKeyDown={handleEnterPress} />
             </InputContainer>
             <ResumeInfos>
                 <StyledTemperature>
-                    <h1><span>●</span> 31°C</h1>
+                        {temperature ? <h1><span>●</span> {temperature}°C</h1> : <h1></h1>} 
                 </StyledTemperature>
-                <h2>Céu aberto</h2>
+                <h2>{weatherDescription}</h2>
                 <hr />
-                <h3>16/11/2023</h3>
-                <h3>Quinta-feira, 16:32</h3>
+                <h3>{formattedDate}</h3>
+                <h3>{formattedWeekday}, {formattedTime}</h3>
             </ResumeInfos>
             <FormGroup>
                 <FormControlLabel control={<Switch />} label="°F" />
