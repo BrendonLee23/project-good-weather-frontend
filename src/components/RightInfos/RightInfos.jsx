@@ -1,11 +1,14 @@
 import { styled } from "styled-components"
 import TodayInfos from "../TodayInfos"
 import NextDayInfos from "../NextDaysInfos"
-import { useState } from "react";
+import { useContext, useState } from "react";
+import InfoContext from "../../contexts/InfoContext";
 
 export default function RightInfos() {
-
-    const [selectedComponent, setSelectedComponent] = useState('today'); // Estado inicial para o componente TodayInfos
+    const { weatherData } = useContext(InfoContext)
+    const [selectedComponent, setSelectedComponent] = useState('today');
+    const formattedLatitude = weatherData ? Math.abs(weatherData.coord.lat).toFixed(2) : '--';
+    const formattedLongitude = weatherData ? Math.abs(weatherData.coord.lon).toFixed(2) : '--';
 
     const handleTitleClick = (component) => {
         setSelectedComponent(component);
@@ -17,9 +20,9 @@ export default function RightInfos() {
                 <h1 onClick={() => handleTitleClick('today')}>Hoje</h1>
                 <h2 onClick={() => handleTitleClick('nextDays')}>Próximos dias</h2>
             </TitleOptions>
-            <CityAndCoordinates>
-                <h1>São Paulo</h1>
-                <p>Lat:  44.34  <span>...</span>  Long: 10.99</p>
+            <CityAndCoordinates weatherData={weatherData}>
+                {weatherData ? <h1>{weatherData.name}</h1> : <h2>--</h2>}
+                <p>Lat: {formattedLatitude} <span>...</span> Long: {formattedLongitude}</p>
             </CityAndCoordinates>
             {selectedComponent === 'today' ? <TodayInfos /> : <NextDayInfos />}
             <Footer>
@@ -41,6 +44,15 @@ const CityAndCoordinates = styled.div`
         letter-spacing: 0em;
         text-align: left;
         color: #222222;
+    }
+    h2{
+        font-family: Poppins;
+        font-size: 50px;
+        font-weight: 400;
+        line-height: 48px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #878787;
     }
     p{
         font-family: Poppins;

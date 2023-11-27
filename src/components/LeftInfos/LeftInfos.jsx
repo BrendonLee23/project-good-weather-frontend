@@ -17,10 +17,27 @@ export default function LeftInfos() {
     const optionsHours = { hour: 'numeric', minute: 'numeric' };
     const formattedTime = currentDate.toLocaleTimeString('pt-BR', optionsHours);
     const kelvinToCelsius = (kelvin) => kelvin - 273.15;
-
     const temperature = weatherData ? Math.round(kelvinToCelsius(weatherData.main.temp)) : 0;
     const weatherDescription = weatherData ? weatherData.weather[0].description : "- -";
-
+    const weatherDescriptions = {
+        'clear sky': 'céu limpo',
+        'few clouds': 'poucas nuvens',
+        'scattered clouds': 'nuvens dispersas',
+        'broken clouds': 'nuvens quebradas',
+        'overcast clouds': 'nuvens nubladas',
+        'light rain': 'chuva leve',
+        'moderate rain': 'chuva moderada',
+        'heavy rain': 'chuva intensa',
+        'light snow': 'neve leve',
+        'moderate snow': 'neve moderada',
+        'heavy snow': 'neve intensa',
+        'mist': 'névoa',
+        'fog': 'nevoeiro',
+        'thunderstorm': 'tempestade',
+        'drizzle': 'chuvisco',
+        'smoke': 'fumaça',
+        };
+    const translatedDescription = weatherDescriptions[weatherDescription] || weatherDescription;
 
     const fetchData = async () => {
         try {
@@ -59,7 +76,7 @@ export default function LeftInfos() {
                 <StyledTemperature>
                         {temperature ? <h1><span>●</span> {temperature}°C</h1> : <h1></h1>} 
                 </StyledTemperature>
-                <h2>{weatherDescription}</h2>
+                <h2>{translatedDescription}</h2>
                 <hr />
                 <h3>{formattedDate}</h3>
                 <h3>{formattedWeekday}, {formattedTime}</h3>
