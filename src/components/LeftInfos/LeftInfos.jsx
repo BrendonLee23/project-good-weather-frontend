@@ -58,7 +58,11 @@ export default function LeftInfos() {
     const fetchGraphic = async () => {
         try {
             const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`);
-            setGraphicData(response.data);
+                const graphData = response.data.list.map(item => ({
+                    timestamp: new Date(item.dt * 1000), // Convert to milliseconds
+                    temperature: item.main.temp - 273.15, // Convert Kelvin to Celsius
+                }));
+                setGraphicData(graphData);
         } catch (error) {
             console.error('Erro ao obter dados do grafico:', error);
         }
