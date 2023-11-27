@@ -35,8 +35,17 @@ export default function TodayInfos() {
                     <h1>{finalVelocity} m/s</h1>
                 </StyledBox>
             </BoxGroup>
-            {averageTemperature <= 22 ? <TextResult1>Você deve levar um casaquinho! 🧥</TextResult1> : <TextResult2>Não, você não deve levar um casaquinho! </TextResult2>}
-            
+            {
+                !weatherData ? (
+                    <TextResult0></TextResult0>
+                ) : (
+                    <ResultText positive={averageTemperature <= 22}>
+                        {averageTemperature <= 22
+                            ? "Você deve levar um casaquinho! 🧥"
+                            : "Não, você não deve levar um casaquinho!"}
+                    </ResultText>
+                )
+            }
         </>
     )
 }
@@ -76,7 +85,7 @@ const StyledBox = styled.div`
         color: #FFFFFF;
     }
 `
-const TextResult1 = styled.p`
+const TextResult0 = styled.p`
     font-family: Poppins;
     font-size: 18px;
     font-weight: 400;
@@ -85,13 +94,12 @@ const TextResult1 = styled.p`
     text-align: left;
     color:#08164e;
 `
-const TextResult2 = styled.p`
+const ResultText = styled.p`
     font-family: Poppins;
     font-size: 18px;
-    font-style: italic;
     font-weight: 400;
     line-height: 48px;
     letter-spacing: 0em;
     text-align: left;
-    color:#9f9f9f;
-`
+    color: ${(props) => (props.positive ? "#08164e" : "#9f9f9f")};
+`;

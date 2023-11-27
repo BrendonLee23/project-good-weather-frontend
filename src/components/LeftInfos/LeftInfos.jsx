@@ -2,17 +2,25 @@ import { styled } from "styled-components";
 import Casaco from "../../assets/casaco.svg";
 import Lupa from "../../assets/lupa.svg";
 import { FormControlLabel, FormGroup, Switch } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import axios from "axios";
 import InfoContext from "../../contexts/InfoContext";
 
+const colors = {
+    orange: '#FFA500',
+    gray: '#808080',
+    blue: '#0000FF',
+    lightGray: '#D3D3D3',
+    purple: '#800080',
+    lightBlue: '#ADD8E6',
+    };
+
 export default function LeftInfos() {
-    const { apiKey, setWeatherData, weatherData } = useContext(InfoContext)
-    const [city, setCity] = useState('');
+    const { apiKey, setWeatherData, weatherData, setGraphicData, city, setCity } = useContext(InfoContext)
     const currentDate = new Date();
     const optionsDate = { year: 'numeric', month: 'numeric', day: 'numeric' }
     const formattedDate = currentDate.toLocaleDateString('pt-BR', optionsDate);
-    const optionsWeekday = { weekday: 'long'};
+    const optionsWeekday = { weekday: 'long' };
     const formattedWeekday = currentDate.toLocaleDateString('pt-BR', optionsWeekday);
     const optionsHours = { hour: 'numeric', minute: 'numeric' };
     const formattedTime = currentDate.toLocaleTimeString('pt-BR', optionsHours);
@@ -36,7 +44,7 @@ export default function LeftInfos() {
         'thunderstorm': 'tempestade',
         'drizzle': 'chuvisco',
         'smoke': 'fumaça',
-        };
+    };
     const translatedDescription = weatherDescriptions[weatherDescription] || weatherDescription;
 
     const fetchData = async () => {
@@ -47,14 +55,27 @@ export default function LeftInfos() {
             console.error('Erro ao obter dados do clima:', error);
         }
     };
+    const fetchGraphic = async () => {
+        try {
+            const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`);
+            setGraphicData(response.data);
+        } catch (error) {
+            console.error('Erro ao obter dados do grafico:', error);
+        }
+    };
+
+    const fetchDataAndGraphic = async () => {
+        await fetchData();
+        await fetchGraphic();
+    };
 
     const handleSearch = () => {
-        fetchData();
+        fetchDataAndGraphic();
     };
 
     const handleEnterPress = (event) => {
         if (event.key === 'Enter') {
-            fetchData();
+            fetchDataAndGraphic();
         }
     };
 
@@ -73,10 +94,12 @@ export default function LeftInfos() {
                     onKeyDown={handleEnterPress} />
             </InputContainer>
             <ResumeInfos>
-                <StyledTemperature>
-                        {temperature ? <h1><span>●</span> {temperature}°C</h1> : <h1></h1>} 
+                <StyledTemperature colors={colors} weatherType={weatherData ? weatherData.weather[0].main : ''}>
+                    {temperature ? <h1><span>●</span> {temperature}°C</h1> : <h1></h1>}
                 </StyledTemperature>
-                <h2>{translatedDescription}</h2>
+                <Description colors={colors} weatherType={weatherData ? weatherData.weather[0].main : ''}>
+                    {translatedDescription}
+                </Description>
                 <hr />
                 <h3>{formattedDate}</h3>
                 <h3>{formattedWeekday}, {formattedTime}</h3>
@@ -185,7 +208,26 @@ const StyledTemperature = styled.div`
     margin-right: 25px;
     margin-top: 25px;
     margin-bottom: 15px;
-    color: #EC6E4C;
+    color: ${(props) => {
+        switch (props.weatherType) {
+            case 'Clear':
+                return colors.orange;
+            case 'Clouds':
+                return colors.gray;
+            case 'Rain':
+                return colors.blue;
+            case 'Snow':
+                return colors.lightGray;
+            case 'Thunderstorm':
+                return colors.purple;
+            case 'Drizzle':
+                return colors.lightBlue;
+            case 'Mist':
+                return colors.lightGray;
+            default:
+                return '#000000'; // Cor padrão, caso o tipo de tempo não seja reconhecido
+        }
+    }};
     h1{
         font-family: Poppins;
         font-size: 80px;
@@ -210,3 +252,31 @@ const Footer = styled.div`
         text-align: left;
 }
 `
+const Description = styled.h2`
+    font-family: Poppins;
+    font-size: 23px;
+    font-weight: 400;
+    line-height: 48px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: ${(props) => {
+        switch (props.weatherType) {
+            case 'Clear':
+                return colors.orange;
+            case 'Clouds':
+                return colors.gray;
+            case 'Rain':
+                return colors.blue;
+            case 'Snow':
+                return colors.lightGray;
+            case 'Thunderstorm':
+                return colors.purple;
+            case 'Drizzle':
+                return colors.lightBlue;
+            case 'Mist':
+                return colors.lightGray;
+            default:
+                return '#000000'; // Cor padrão, caso o tipo de tempo não seja reconhecido
+        }
+    }};
+`;
