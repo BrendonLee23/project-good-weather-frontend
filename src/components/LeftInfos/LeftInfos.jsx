@@ -13,7 +13,7 @@ const colors = {
     lightGray: '#D3D3D3',
     purple: '#800080',
     lightBlue: '#ADD8E6',
-    };
+};
 
 export default function LeftInfos() {
     const { apiKey, setWeatherData, weatherData, setGraphicData, city, setCity } = useContext(InfoContext)
@@ -46,7 +46,6 @@ export default function LeftInfos() {
         'smoke': 'fumaça',
     };
     const translatedDescription = weatherDescriptions[weatherDescription] || weatherDescription;
-
     const fetchData = async () => {
         try {
             const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
@@ -58,25 +57,22 @@ export default function LeftInfos() {
     const fetchGraphic = async () => {
         try {
             const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`);
-                const graphData = response.data.list.map(item => ({
-                    timestamp: new Date(item.dt * 1000), // Convert to milliseconds
-                    temperature: item.main.temp - 273.15, // Convert Kelvin to Celsius
-                }));
-                setGraphicData(graphData);
+            const graphData = response.data.list.map(item => ({
+                timestamp: new Date(item.dt * 1000), // Convert to milliseconds
+                temperature: item.main.temp - 273.15, // Convert Kelvin to Celsius
+            }));
+            setGraphicData(graphData);
         } catch (error) {
             console.error('Erro ao obter dados do grafico:', error);
         }
     };
-
     const fetchDataAndGraphic = async () => {
         await fetchData();
         await fetchGraphic();
     };
-
     const handleSearch = () => {
         fetchDataAndGraphic();
     };
-
     const handleEnterPress = (event) => {
         if (event.key === 'Enter') {
             fetchDataAndGraphic();
@@ -95,7 +91,8 @@ export default function LeftInfos() {
                     placeholder="Procure por uma cidade"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    onKeyDown={handleEnterPress} />
+                    onKeyDown={handleEnterPress}
+                    autoFocus />
             </InputContainer>
             <ResumeInfos>
                 <StyledTemperature colors={colors} weatherType={weatherData ? weatherData.weather[0].main : ''}>
@@ -108,10 +105,12 @@ export default function LeftInfos() {
                 <h3>{formattedDate}</h3>
                 <h3>{formattedWeekday}, {formattedTime}</h3>
             </ResumeInfos>
-            <FormGroup>
-                <FormControlLabel control={<Switch />} label="°F" />
-                <FormControlLabel control={<Switch />} label="Dark Mode" />
-            </FormGroup>
+            <SwitchsDiv>
+                <FormGroup>
+                    <FormControlLabel control={<Switch />} label="°F" />
+                    <FormControlLabel control={<Switch />} label="Dark Mode" />
+                </FormGroup>
+            </SwitchsDiv>
             <Footer>
                 <p>Todos os direitos reservados. 2023.</p>
             </Footer>
@@ -124,8 +123,8 @@ const LeftInfosContainer = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 960px;
-    height: 630px;
+    width: 800px;
+    height: 100%;
     padding: 30px 20px 10px 30px;
     border: 1px solid #f3f1f1
 `
@@ -244,9 +243,8 @@ const StyledTemperature = styled.div`
     }
 `
 const Footer = styled.div`
-    position: absolute;
-    bottom: 0;
-    margin-bottom: 20px;
+    bottom: 20px;
+    position: fixed;
     p{
         font-family: Poppins;
         font-size: 18px;
@@ -284,3 +282,8 @@ const Description = styled.h2`
         }
     }};
 `;
+
+const SwitchsDiv = styled.div`
+    bottom: 90px;
+    position: fixed;
+`

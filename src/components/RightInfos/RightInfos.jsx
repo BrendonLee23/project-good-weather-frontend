@@ -32,6 +32,17 @@ export default function RightInfos() {
     )
 }
 
+const RightInfosContainer = styled.div`
+    background-color:#D8D8D8;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 1912px;
+    border: 2px solid #D8D8D8;
+    padding-left: 40px;
+    padding-top: 30px;
+`
+
 const CityAndCoordinates = styled.div`
     display:flex;
     flex-direction: column;
@@ -70,16 +81,7 @@ const CityAndCoordinates = styled.div`
     }
 `
 
-const RightInfosContainer = styled.div`
-    background-color:#D8D8D8;
-    display: flex;
-    flex-direction: column;
-    height: 630px;
-    width: 1912px;
-    border: 2px solid #D8D8D8;
-    padding-left: 40px;
-    padding-top: 30px;
-`
+
 
 const TitleOptions = styled.div`
     width: 750px;
@@ -113,9 +115,8 @@ const TitleOptions = styled.div`
     }
 `
 const Footer = styled.div`
-    position: absolute;
-    bottom: 0;
-    margin-bottom: 20px;
+    bottom: 20px;
+    position: fixed;
     p{
         font-family: Poppins;
         font-size: 18px;
@@ -123,8 +124,5 @@ const Footer = styled.div`
         line-height: 48px;
         letter-spacing: 0em;
         text-align: left;
-    span{
-        color: #96A7F2;
     }
-}
 `

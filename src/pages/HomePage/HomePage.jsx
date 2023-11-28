@@ -15,7 +15,6 @@ const Home = styled.div`
     background-color: #b5b5b5;
     width: 100%;
     height: 100vh;
-    padding: 20px;
     display: flex;
     justify-content: center; /* Centraliza os elementos horizontalmente */
     align-items: center; /* Centraliza os elementos verticalmente */
