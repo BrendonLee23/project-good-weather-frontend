@@ -3,7 +3,7 @@ import { styled } from "styled-components"
 import InfoContext from "../contexts/InfoContext"
 
 export default function TodayInfos() {
-    const { weatherData } = useContext(InfoContext)
+    const { weatherData, isFahrenheit } = useContext(InfoContext)
 
     const kelvinToCelsius = (kelvin) => kelvin - 273.15;
     const temperature = weatherData ? Math.round(kelvinToCelsius(weatherData.main.temp)) : 0;
@@ -11,7 +11,8 @@ export default function TodayInfos() {
     const temperatureMin = weatherData ? Math.round(kelvinToCelsius(weatherData.main.temp_min)) : 0;
     const averageTemperature = (temperature + temperatureMax + temperatureMin) / 3;
     const humidity = weatherData ? weatherData.main.humidity : 0;
-
+    const displayTemperatureUnit = isFahrenheit ? 'F' : 'C';
+    const celsiusToFahrenheit = (celsius) => (celsius * 9/5) + 32;
     const speedKmPerHour = weatherData ? weatherData.wind.speed : 0;
     const speedMetersPerSecond = speedKmPerHour / 3.6;
     const finalVelocity = speedMetersPerSecond.toFixed(2);
@@ -20,11 +21,11 @@ export default function TodayInfos() {
             <BoxGroup>
                 <StyledBox>
                     <p>Mínima</p>
-                    <h1>{temperatureMin}° C</h1>
+                    <h1>{isFahrenheit ? celsiusToFahrenheit(temperatureMin) : temperatureMin}° {displayTemperatureUnit}</h1>
                 </StyledBox>
                 <StyledBox>
                     <p>Máxima</p>
-                    <h1>{temperatureMax}° C</h1>
+                    <h1>{isFahrenheit ? celsiusToFahrenheit(temperatureMax) : temperatureMax}° {displayTemperatureUnit}</h1>
                 </StyledBox>
                 <StyledBox>
                     <p>Umidade</p>
@@ -32,7 +33,7 @@ export default function TodayInfos() {
                 </StyledBox>
                 <StyledBox>
                     <p>Velocidade de movimento</p>
-                    <h1>{finalVelocity} m/s</h1>
+                    <h1>{isFahrenheit ? (finalVelocity * 2.23694).toFixed(2) : finalVelocity} {isFahrenheit ? 'mph' : 'm/s'}</h1>
                 </StyledBox>
             </BoxGroup>
             {
@@ -40,7 +41,7 @@ export default function TodayInfos() {
                     <TextResult0></TextResult0>
                 ) : (
                     <ResultText positive={averageTemperature <= 22}>
-                        {averageTemperature <= 22
+                        {averageTemperature <= 18
                             ? "Você deve levar um casaquinho! 🧥"
                             : "Não, você não deve levar um casaquinho!"}
                     </ResultText>

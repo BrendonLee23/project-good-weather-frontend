@@ -16,7 +16,7 @@ const colors = {
 };
 
 export default function LeftInfos() {
-    const { apiKey, setWeatherData, weatherData, setGraphicData, city, setCity } = useContext(InfoContext)
+    const { apiKey, setWeatherData, weatherData, setGraphicData, city, setCity, isFahrenheit, setIsFahrenheit } = useContext(InfoContext)
     const currentDate = new Date();
     const optionsDate = { year: 'numeric', month: 'numeric', day: 'numeric' }
     const formattedDate = currentDate.toLocaleDateString('pt-BR', optionsDate);
@@ -25,7 +25,11 @@ export default function LeftInfos() {
     const optionsHours = { hour: 'numeric', minute: 'numeric' };
     const formattedTime = currentDate.toLocaleTimeString('pt-BR', optionsHours);
     const kelvinToCelsius = (kelvin) => kelvin - 273.15;
-    const temperature = weatherData ? Math.round(kelvinToCelsius(weatherData.main.temp)) : 0;
+    const kelvinToFahrenheit = (kelvin) => (kelvin - 273.15) * (9 / 5) + 32;
+    const temperatureInKelvin = weatherData ? weatherData.main.temp : 0;
+    const temperatureInCelsius = Math.round(kelvinToCelsius(temperatureInKelvin));
+    const temperatureInFahrenheit = Math.round(kelvinToFahrenheit(temperatureInKelvin));
+    const displayTemperature = isFahrenheit ? temperatureInFahrenheit : temperatureInCelsius;
     const weatherDescription = weatherData ? weatherData.weather[0].description : "- -";
     const weatherDescriptions = {
         'clear sky': 'céu limpo',
@@ -96,19 +100,26 @@ export default function LeftInfos() {
             </InputContainer>
             <ResumeInfos>
                 <StyledTemperature colors={colors} weatherType={weatherData ? weatherData.weather[0].main : ''}>
-                    {temperature ? <h1><span>●</span> {temperature}°C</h1> : <h1></h1>}
+                    {temperatureInKelvin ? <h1><span>●</span> {displayTemperature}°{isFahrenheit ? 'F' : 'C'}</h1> : <h1></h1>}
                 </StyledTemperature>
                 <Description colors={colors} weatherType={weatherData ? weatherData.weather[0].main : ''}>
                     {translatedDescription}
                 </Description>
-
             </ResumeInfos>
             <SwitchsDiv>
                 <hr />
                 <h2>{formattedDate}</h2>
                 <h3>{formattedWeekday}, {formattedTime}</h3>
                 <FormGroup>
-                    <FormControlLabel control={<Switch />} label="°F" />
+                    <FormControlLabel 
+                        control={
+                                    <Switch
+                                        checked={isFahrenheit}
+                                        onChange={() => setIsFahrenheit(!isFahrenheit)}
+                                        color="primary" 
+                                    />
+                                } 
+                        label="°F" />
                     <FormControlLabel control={<Switch />} label="Dark Mode" />
                 </FormGroup>
             </SwitchsDiv>
@@ -261,8 +272,7 @@ const Description = styled.h2`
                 return '#000000'; // Cor padrão, caso o tipo de tempo não seja reconhecido
         }
     }};
-`;
-
+`
 const SwitchsDiv = styled.div`
     bottom: 90px;
     position: fixed;
