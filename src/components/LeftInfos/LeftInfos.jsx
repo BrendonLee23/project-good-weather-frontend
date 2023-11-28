@@ -101,11 +101,12 @@ export default function LeftInfos() {
                 <Description colors={colors} weatherType={weatherData ? weatherData.weather[0].main : ''}>
                     {translatedDescription}
                 </Description>
-                <hr />
-                <h3>{formattedDate}</h3>
-                <h3>{formattedWeekday}, {formattedTime}</h3>
+
             </ResumeInfos>
             <SwitchsDiv>
+                <hr />
+                <h2>{formattedDate}</h2>
+                <h3>{formattedWeekday}, {formattedTime}</h3>
                 <FormGroup>
                     <FormControlLabel control={<Switch />} label="°F" />
                     <FormControlLabel control={<Switch />} label="Dark Mode" />
@@ -181,28 +182,7 @@ const ResumeInfos = styled.div`
     align-items: center;
     margin-top: 70px;
     margin-bottom: 25px;
-    h2{
-        font-family: Poppins;
-        font-size: 23px;
-        font-weight: 400;
-        line-height: 48px;
-        letter-spacing: 0em;
-        text-align: left;
-    }
-    hr{
-        background: #EDEDED;
-        border: 2px solid #EDEDED;
-        width: 250px;
-        margin-bottom: 30px;
-    }
-    h3{
-    font-family: Poppins;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 25px;
-    letter-spacing: 0em;
-    text-align: left;
-    }
+    position: relative;
 `
 const StyledTemperature = styled.div`
     display: flex;
@@ -286,4 +266,32 @@ const Description = styled.h2`
 const SwitchsDiv = styled.div`
     bottom: 90px;
     position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    hr{
+        background: #EDEDED;
+        border: 2px solid #EDEDED;
+        width: 250px;
+        margin-bottom: 30px;
+    }
+    h2{
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 25px;
+    letter-spacing: 0em;
+    text-align: center;
+    }
+    h3{
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 25px;
+    letter-spacing: 0em;
+    text-align: center;
+    margin-bottom: 25px;
+    }
+
 `
