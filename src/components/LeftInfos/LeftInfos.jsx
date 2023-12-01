@@ -5,15 +5,7 @@ import { FormControlLabel, FormGroup, Switch } from "@mui/material";
 import { useContext } from "react";
 import axios from "axios";
 import InfoContext from "../../contexts/InfoContext";
-
-const colors = {
-    orange: '#FFA500',
-    gray: '#808080',
-    blue: '#0000FF',
-    lightGray: '#D3D3D3',
-    purple: '#800080',
-    lightBlue: '#ADD8E6',
-};
+import { weatherDescriptions } from "../../utils/climate-data";
 
 export default function LeftInfos() {
     const { apiKey, setWeatherData, weatherData, setGraphicData, city, setCity, isFahrenheit, setIsFahrenheit } = useContext(InfoContext)
@@ -31,24 +23,7 @@ export default function LeftInfos() {
     const temperatureInFahrenheit = Math.round(kelvinToFahrenheit(temperatureInKelvin));
     const displayTemperature = isFahrenheit ? temperatureInFahrenheit : temperatureInCelsius;
     const weatherDescription = weatherData ? weatherData.weather[0].description : "- -";
-    const weatherDescriptions = {
-        'clear sky': 'céu limpo',
-        'few clouds': 'poucas nuvens',
-        'scattered clouds': 'nuvens dispersas',
-        'broken clouds': 'nuvens quebradas',
-        'overcast clouds': 'nuvens nubladas',
-        'light rain': 'chuva leve',
-        'moderate rain': 'chuva moderada',
-        'heavy rain': 'chuva intensa',
-        'light snow': 'neve leve',
-        'moderate snow': 'neve moderada',
-        'heavy snow': 'neve intensa',
-        'mist': 'névoa',
-        'fog': 'nevoeiro',
-        'thunderstorm': 'tempestade',
-        'drizzle': 'chuvisco',
-        'smoke': 'fumaça',
-    };
+
     const translatedDescription = weatherDescriptions[weatherDescription] || weatherDescription;
     const fetchData = async () => {
         try {
@@ -83,6 +58,11 @@ export default function LeftInfos() {
         }
     };
 
+    const getIconUrl = (iconCode) => `http://openweathermap.org/img/wn/${iconCode}.png`;
+    const iconUrl = weatherData && weatherData.weather && weatherData.weather.length > 0
+        ? getIconUrl(weatherData.weather[0].icon)
+        : null;
+
     return (
         <LeftInfosContainer>
             <Title>
@@ -99,11 +79,18 @@ export default function LeftInfos() {
                     autoFocus />
             </InputContainer>
             <ResumeInfos>
-                <StyledTemperature colors={colors} weatherType={weatherData ? weatherData.weather[0].main : ''}>
-                    {temperatureInKelvin ? <h1><span>●</span> {displayTemperature}°{isFahrenheit ? 'F' : 'C'}</h1> : <h1></h1>}
+                <StyledTemperature weatherType={weatherData ? weatherData.weather[0].description : ''}>
+                    {temperatureInKelvin ? (
+                        <>
+                            
+                            <h1>{iconUrl && <img src={iconUrl} alt="Weather Icon" />}{displayTemperature}°{isFahrenheit ? 'F' : 'C'}</h1>
+                        </>
+                    ) : (
+                        <h1></h1>
+                    )}
                 </StyledTemperature>
-                <Description colors={colors} weatherType={weatherData ? weatherData.weather[0].main : ''}>
-                    {translatedDescription}
+                <Description weatherType={weatherData ? weatherData.weather[0].description : ''}>
+                    {translatedDescription.description}
                 </Description>
             </ResumeInfos>
             <SwitchsDiv>
@@ -111,14 +98,14 @@ export default function LeftInfos() {
                 <h2>{formattedDate}</h2>
                 <h3>{formattedWeekday}, {formattedTime}</h3>
                 <FormGroup>
-                    <FormControlLabel 
+                    <FormControlLabel
                         control={
-                                    <Switch
-                                        checked={isFahrenheit}
-                                        onChange={() => setIsFahrenheit(!isFahrenheit)}
-                                        color="primary" 
-                                    />
-                                } 
+                            <Switch
+                                checked={isFahrenheit}
+                                onChange={() => setIsFahrenheit(!isFahrenheit)}
+                                color="primary"
+                            />
+                        }
                         label="°F" />
                     <FormControlLabel control={<Switch />} label="Dark Mode" />
                 </FormGroup>
@@ -182,8 +169,8 @@ const InputContainer = styled.div`
             top: 146%;
             left: 20px;
             transform: translateY(-50%);
-            width: 35px; /* Ajuste o tamanho conforme necessário */
-            height: 35px; /* Ajuste o tamanho conforme necessário */
+            width: 35px; 
+            height: 35px; 
             cursor: pointer;
         }
 `
@@ -203,24 +190,10 @@ const StyledTemperature = styled.div`
     margin-top: 25px;
     margin-bottom: 15px;
     color: ${(props) => {
-        switch (props.weatherType) {
-            case 'Clear':
-                return colors.orange;
-            case 'Clouds':
-                return colors.gray;
-            case 'Rain':
-                return colors.blue;
-            case 'Snow':
-                return colors.lightGray;
-            case 'Thunderstorm':
-                return colors.purple;
-            case 'Drizzle':
-                return colors.lightBlue;
-            case 'Mist':
-                return colors.lightGray;
-            default:
-                return '#000000'; // Cor padrão, caso o tipo de tempo não seja reconhecido
-        }
+        const weatherType = props.weatherType || '';
+        const color = weatherDescriptions[weatherType]?.color || '#000000';
+
+        return color;
     }};
     h1{
         font-family: Poppins;
@@ -229,8 +202,9 @@ const StyledTemperature = styled.div`
         line-height: 48px;
         letter-spacing: 0em;
     }
-    span{
-        font-size: 100px;
+    img{
+        width: 70px; 
+        height:70px;
     }
 `
 const Footer = styled.div`
@@ -253,24 +227,10 @@ const Description = styled.h2`
     letter-spacing: 0em;
     text-align: left;
     color: ${(props) => {
-        switch (props.weatherType) {
-            case 'Clear':
-                return colors.orange;
-            case 'Clouds':
-                return colors.gray;
-            case 'Rain':
-                return colors.blue;
-            case 'Snow':
-                return colors.lightGray;
-            case 'Thunderstorm':
-                return colors.purple;
-            case 'Drizzle':
-                return colors.lightBlue;
-            case 'Mist':
-                return colors.lightGray;
-            default:
-                return '#000000'; // Cor padrão, caso o tipo de tempo não seja reconhecido
-        }
+        const weatherType = props.weatherType || '';
+        const color = weatherDescriptions[weatherType]?.color || '#000000';
+
+        return color;
     }};
 `
 const SwitchsDiv = styled.div`

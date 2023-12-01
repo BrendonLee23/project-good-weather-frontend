@@ -11,10 +11,8 @@ export default function NextDayInfos() {
     };
 
     const temperatureFormatter = (value) => {
-        // Arredonda para um número inteiro
         const roundedTemperature = Math.round(value);
 
-        // Se isFahrenheit for verdadeiro, converte Celsius para Fahrenheit
         const temperature = isFahrenheit ? (roundedTemperature * 9/5) + 32 : roundedTemperature;
 
         return `${temperature}°${isFahrenheit ? 'F' : 'C'}`;
