@@ -28,40 +28,35 @@ export default function LeftInfos() {
 
     const translatedDescription = weatherDescriptions[weatherDescription] || weatherDescription;
 
-    function fetchData() {
-        axios
-            .get(`${apiURL}/weather?q=${city}&appid=${apiKey}`)
-            .then((response) => {
-                console.log(response);
-                setWeatherData(response.data);
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${apiURL}/weather?q=${city}&appid=${apiKey}`);
+            setWeatherData(response.data);
+        } catch (error) {
+            console.error('Erro ao obter dados do clima:', error);
+            Swal.fire({
+                title: "Cidade não encontrada!",
+                text: "Verifique se o nome da cidade está correto ou insira uma cidade válida.",
+                icon: "error",
+                confirmButtonText: "😢 okay..."
             })
-            .catch((error) => {
-                console.error('Erro ao obter dados do clima:', error.message);
-                Swal.fire({
-                    title: "Cidade não encontrada!",
-                    text: "Verifique se o nome da cidade está correto ou insira uma cidade válida.",
-                    icon: "error",
-                    confirmButtonText: "😢 okay..."
-                })
-            });
-    }
-    function fetchGraphic() {
-        axios
-            .get(`${apiURL}/forecast?q=${city}&appid=${apiKey}`)
-            .then((response) => {
-                const graphData = response.data.list.map(item => ({
-                    timestamp: new Date(item.dt * 1000), // Convert to milliseconds
-                    temperature: item.main.temp - 273.15, // Convert Kelvin to Celsius
-                }));
-                setGraphicData(graphData);
-            })
-            .catch((error) => {
-                console.error('Erro ao obter dados do gráfico:', error.message);
-            });
-    }
+        }
+    };
+    const fetchGraphic = async () => {
+        try {
+            const response = await axios.get(`${apiURL}/forecast?q=${city}&appid=${apiKey}`);
+            const graphData = response.data.list.map(item => ({
+                timestamp: new Date(item.dt * 1000), // Convert to milliseconds
+                temperature: item.main.temp - 273.15, // Convert Kelvin to Celsius
+            }));
+            setGraphicData(graphData);
+        } catch (error) {
+            console.error('Erro ao obter dados do gráfico:', error.message);
+        }
+    };
     const fetchDataAndGraphic = async () => {
-        fetchData();
-        fetchGraphic();
+        await fetchData();
+        await fetchGraphic();
     };
     const handleSearch = () => {
         fetchDataAndGraphic();
