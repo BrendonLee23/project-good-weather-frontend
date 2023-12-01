@@ -6,9 +6,11 @@ import { useContext } from "react";
 import axios from "axios";
 import InfoContext from "../../contexts/InfoContext";
 import { weatherDescriptions } from "../../utils/climate-data";
+import Swal from "sweetalert2";
 
 export default function LeftInfos() {
     const { apiKey, setWeatherData, weatherData, setGraphicData, city, setCity, isFahrenheit, setIsFahrenheit } = useContext(InfoContext)
+    const apiURL = import.meta.env.VITE_API_URL;
     const currentDate = new Date();
     const optionsDate = { year: 'numeric', month: 'numeric', day: 'numeric' }
     const formattedDate = currentDate.toLocaleDateString('pt-BR', optionsDate);
@@ -25,29 +27,41 @@ export default function LeftInfos() {
     const weatherDescription = weatherData ? weatherData.weather[0].description : "- -";
 
     const translatedDescription = weatherDescriptions[weatherDescription] || weatherDescription;
-    const fetchData = async () => {
-        try {
-            const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
-            setWeatherData(response.data);
-        } catch (error) {
-            console.error('Erro ao obter dados do clima:', error);
-        }
-    };
-    const fetchGraphic = async () => {
-        try {
-            const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`);
-            const graphData = response.data.list.map(item => ({
-                timestamp: new Date(item.dt * 1000), // Convert to milliseconds
-                temperature: item.main.temp - 273.15, // Convert Kelvin to Celsius
-            }));
-            setGraphicData(graphData);
-        } catch (error) {
-            console.error('Erro ao obter dados do grafico:', error);
-        }
-    };
+
+    function fetchData() {
+        axios
+            .get(`${apiURL}/weather?q=${city}&appid=${apiKey}`)
+            .then((response) => {
+                console.log(response);
+                setWeatherData(response.data);
+            })
+            .catch((error) => {
+                console.error('Erro ao obter dados do clima:', error.message);
+                Swal.fire({
+                    title: "Cidade não encontrada!",
+                    text: "Verifique se o nome da cidade está correto ou insira uma cidade válida.",
+                    icon: "error",
+                    confirmButtonText: "😢 okay..."
+                })
+            });
+    }
+    function fetchGraphic() {
+        axios
+            .get(`${apiURL}/forecast?q=${city}&appid=${apiKey}`)
+            .then((response) => {
+                const graphData = response.data.list.map(item => ({
+                    timestamp: new Date(item.dt * 1000), // Convert to milliseconds
+                    temperature: item.main.temp - 273.15, // Convert Kelvin to Celsius
+                }));
+                setGraphicData(graphData);
+            })
+            .catch((error) => {
+                console.error('Erro ao obter dados do gráfico:', error.message);
+            });
+    }
     const fetchDataAndGraphic = async () => {
-        await fetchData();
-        await fetchGraphic();
+        fetchData();
+        fetchGraphic();
     };
     const handleSearch = () => {
         fetchDataAndGraphic();
@@ -82,7 +96,7 @@ export default function LeftInfos() {
                 <StyledTemperature weatherType={weatherData ? weatherData.weather[0].description : ''}>
                     {temperatureInKelvin ? (
                         <>
-                            
+
                             <h1>{iconUrl && <img src={iconUrl} alt="Weather Icon" />}{displayTemperature}°{isFahrenheit ? 'F' : 'C'}</h1>
                         </>
                     ) : (
@@ -191,7 +205,7 @@ const StyledTemperature = styled.div`
     margin-bottom: 15px;
     color: ${(props) => {
         const weatherType = props.weatherType || '';
-        const color = weatherDescriptions[weatherType]?.color || '#000000';
+        const color = weatherDescriptions[weatherType]?.color || '#ffffff';
 
         return color;
     }};

@@ -51,7 +51,7 @@ const CityAndCoordinates = styled.div`
         font-family: Poppins;
         font-size: 80px;
         font-weight: 400;
-        line-height: 48px;
+        line-height: 65px;
         letter-spacing: 0em;
         text-align: left;
         color: #222222;

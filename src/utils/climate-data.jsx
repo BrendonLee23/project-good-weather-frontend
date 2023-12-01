@@ -1,5 +1,5 @@
 export const weatherDescriptions = {
-    'clear sky': { description: 'céu limpo', color: '#90cafd' },
+    'clear sky': { description: 'céu limpo', color: '#79b7ee' },
     'few clouds': { description: 'poucas nuvens', color: '#969494' },
     'scattered clouds': { description: 'nuvens dispersas', color: '#c1c0c0' },
     'broken clouds': { description: 'nuvens quebradas', color: '#ADD8E6' },
