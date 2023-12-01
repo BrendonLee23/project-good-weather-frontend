@@ -41,13 +41,13 @@ npm run dev
 
 2 - Na interface, insira o nome de uma cidade na caixa de pesquisa e pressione Enter ou clique no ícone de pesquisa.
 
-![Alt text](image.png)
+![Alt text](../projeto25-levo-um-casaquinho/src/assets/image.png)
 
 3 - Os dados climáticos para a cidade inserida serão exibidos, incluindo a temperatura, descrição do clima e um gráfico de previsão de temperatura.
 
-![Alt text](image-1.png)
+![Alt text](../projeto25-levo-um-casaquinho/src/assets/image-1.png)
 
-![Alt text](image-2.png)
+![Alt text](../projeto25-levo-um-casaquinho/src/assets/image-2.png)
 
 ## Funcionalidades
 
