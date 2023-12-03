@@ -41,6 +41,11 @@ const RightInfosContainer = styled.div`
     border: 2px solid #D8D8D8;
     padding-left: 40px;
     padding-top: 30px;
+    @media (max-width: 574px) {
+        height: 100%;
+        margin: 0 auto;
+        width: 574px;
+    }
 `
 
 const CityAndCoordinates = styled.div`
@@ -117,6 +122,12 @@ const TitleOptions = styled.div`
 const Footer = styled.div`
     bottom: 20px;
     position: fixed;
+    @media (max-width: 574px) {
+        width: 100%; /* Ajusta a largura para 100% em telas menores que 574px */
+        position: relative;
+        margin-top: 20px;
+        text-align: center;
+    }
     p{
         font-family: Poppins;
         font-size: 18px;
@@ -124,5 +135,10 @@ const Footer = styled.div`
         line-height: 48px;
         letter-spacing: 0em;
         text-align: left;
+        @media (max-width: 574px) {
+        text-align: left;
+        margin-right: 20px;
+        margin-bottom: 10px;
+    }
     }
 `

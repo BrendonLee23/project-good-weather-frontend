@@ -11,5 +11,4 @@ export const GlobalStyle = createGlobalStyle`
     ::placeholder{
             color: black;
         }
-
 `

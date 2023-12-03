@@ -106,7 +106,6 @@ export default function LeftInfos() {
                 <StyledTemperature weatherType={weatherData ? weatherData.weather[0].description : ''}>
                     {temperatureInKelvin ? (
                         <>
-
                             <h1>{iconUrl && <img src={iconUrl} alt="Weather Icon" />}{displayTemperature}°{isFahrenheit ? 'F' : 'C'}</h1>
                         </>
                     ) : (
@@ -149,26 +148,33 @@ const LeftInfosContainer = styled.div`
     width: 800px;
     height: 100%;
     padding: 30px 20px 10px 30px;
-    border: 1px solid #f3f1f1
+    border: 1px solid #f3f1f1;
+    @media (max-width: 574px) {
+        width: 100%;
+        height: 600px;
+    }
 `
 const Title = styled.div`
     display: flex;
     align-items: center; 
     justify-content: center;
     padding-left: 35px;
+    @media (max-width: 574px) {
+        margin-bottom: 10px;
+    }
     img{
         width: 85px;
         height: 85px;
     }
-h1{
-    color: #030303;
-    font-family: Poppins;
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 30px;
-    letter-spacing: 0em;
-    text-align: left;
-    margin-left: 15px;
+    h1{
+        color: #030303;
+        font-family: Poppins;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 30px;
+        letter-spacing: 0em;
+        text-align: left;
+        margin-left: 15px;
 }
 
 `
@@ -204,7 +210,11 @@ const ResumeInfos = styled.div`
     align-items: center;
     margin-top: 70px;
     margin-bottom: 25px;
-    position: relative;
+    position: relative;    
+    @media (max-width: 574px) {
+        position: absolute;
+        margin-top: 200px;
+    }
 `
 const StyledTemperature = styled.div`
     display: flex;
@@ -216,7 +226,6 @@ const StyledTemperature = styled.div`
     color: ${(props) => {
         const weatherType = props.weatherType || '';
         const color = weatherDescriptions[weatherType]?.color || '#b6b4b4';
-
         return color;
     }};
     h1{
@@ -231,18 +240,7 @@ const StyledTemperature = styled.div`
         height:70px;
     }
 `
-const Footer = styled.div`
-    bottom: 20px;
-    position: fixed;
-    p{
-        font-family: Poppins;
-        font-size: 18px;
-        font-weight: 400;
-        line-height: 48px;
-        letter-spacing: 0em;
-        text-align: left;
-}
-`
+
 const Description = styled.h2`
     font-family: Poppins;
     font-size: 23px;
@@ -253,7 +251,6 @@ const Description = styled.h2`
     color: ${(props) => {
         const weatherType = props.weatherType || '';
         const color = weatherDescriptions[weatherType]?.color || '#9b9999';
-
         return color;
     }};
 `
@@ -264,11 +261,18 @@ const SwitchsDiv = styled.div`
     flex-direction: column;
     align-items: center;
     text-align: center;
+    @media (max-width: 574px) {
+        position: relative;
+        margin-top: 350px;
+    }
     hr{
         background: #EDEDED;
         border: 2px solid #EDEDED;
         width: 250px;
         margin-bottom: 30px;
+        @media (max-width: 574px) {
+        display: none;
+    }
     }
     h2{
     font-family: Poppins;
@@ -288,4 +292,23 @@ const SwitchsDiv = styled.div`
     margin-bottom: 25px;
     }
 
+`
+const Footer = styled.div`
+    bottom: 20px;
+    position: fixed;
+    @media (max-width: 574px) {
+        display: none;
+    }
+    p{
+        font-family: Poppins;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 48px;
+        letter-spacing: 0em;
+        text-align: left;
+        @media (max-width: 574px) {
+        font-size: 12px;
+        text-align: left;
+    }
+}
 `

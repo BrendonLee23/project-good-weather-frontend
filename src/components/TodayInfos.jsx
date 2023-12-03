@@ -58,6 +58,10 @@ const BoxGroup = styled.div`
     height: 230px;
     gap:25px;
     margin-bottom: 20px;
+    @media (max-width: 574px) {
+        width: 485px;
+        padding-left: 25px;
+    }
 `
 const StyledBox = styled.div`
     width: 350px;
@@ -67,6 +71,11 @@ const StyledBox = styled.div`
     box-shadow: 0px 24px 48px 0px #314F7C14;
     margin-right: 30px;
     padding: 23px;
+    @media (max-width: 574px) {
+        width: 210px; 
+        margin-right: 5px;
+        padding: 18px;
+    }
     p{
         font-family: Poppins;
         font-size: 14px;
@@ -75,6 +84,9 @@ const StyledBox = styled.div`
         letter-spacing: 0em;
         text-align: left;
         color: #FFFFFF;
+        @media (max-width: 574px) {
+            font-size: 12px;
+    }
     }
     h1{
         font-family: Poppins;
@@ -84,6 +96,9 @@ const StyledBox = styled.div`
         letter-spacing: 0em;
         text-align: left;
         color: #FFFFFF;
+        @media (max-width: 574px) {
+            font-size: 22px;
+    }
     }
 `
 const TextResult0 = styled.p`
