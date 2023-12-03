@@ -9,7 +9,7 @@ function App() {
   const [graphicData, setGraphicData] = useState();
   const [isFahrenheit, setIsFahrenheit] = useState(false);
   const [city, setCity] = useState('');
-  const apiKey = '0f65746ebdd611271286b80eda237cde';
+  const apiKey = import.meta.env.VITE_API_KEY
   console.log(weatherData)
 
   return (

@@ -200,7 +200,7 @@ const StyledTemperature = styled.div`
     margin-bottom: 15px;
     color: ${(props) => {
         const weatherType = props.weatherType || '';
-        const color = weatherDescriptions[weatherType]?.color || '#ffffff';
+        const color = weatherDescriptions[weatherType]?.color || '#b6b4b4';
 
         return color;
     }};
@@ -237,7 +237,7 @@ const Description = styled.h2`
     text-align: left;
     color: ${(props) => {
         const weatherType = props.weatherType || '';
-        const color = weatherDescriptions[weatherType]?.color || '#000000';
+        const color = weatherDescriptions[weatherType]?.color || '#9b9999';
 
         return color;
     }};
