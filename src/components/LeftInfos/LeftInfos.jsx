@@ -31,7 +31,17 @@ export default function LeftInfos() {
     const fetchData = async () => {
         try {
             const response = await axios.get(`${apiURL}/weather?q=${city}&appid=${apiKey}`);
-            setWeatherData(response.data);
+            if (response.data && response.data.main) {
+                setWeatherData(response.data);
+            } else {
+                console.error('Erro ao obter dados do clima: Resposta da API mal formatada.');
+                Swal.fire({
+                    title: "Erro ao obter dados do clima",
+                    text: "Os dados retornados pela API não estão no formato esperado.",
+                    icon: "error",
+                    confirmButtonText: "😢 okay..."
+                })
+            }
         } catch (error) {
             console.error('Erro ao obter dados do clima:', error);
             Swal.fire({
@@ -45,15 +55,20 @@ export default function LeftInfos() {
     const fetchGraphic = async () => {
         try {
             const response = await axios.get(`${apiURL}/forecast?q=${city}&appid=${apiKey}`);
-            const graphData = response.data.list.map(item => ({
-                timestamp: new Date(item.dt * 1000), // Convert to milliseconds
-                temperature: item.main.temp - 273.15, // Convert Kelvin to Celsius
-            }));
-            setGraphicData(graphData);
+            if (response.data && response.data.list) {
+                const graphData = response?.data.list.map(item => ({
+                    timestamp: new Date(item.dt * 1000), 
+                    temperature: item.main.temp - 273.15, 
+                }));
+                setGraphicData(graphData);
+            } else {
+                console.error('Erro ao obter dados do gráfico: Resposta da API mal formatada.');
+            }
         } catch (error) {
             console.error('Erro ao obter dados do gráfico:', error.message);
         }
     };
+    
     const fetchDataAndGraphic = async () => {
         await fetchData();
         await fetchGraphic();

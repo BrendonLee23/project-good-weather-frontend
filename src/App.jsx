@@ -10,7 +10,8 @@ function App() {
   const [isFahrenheit, setIsFahrenheit] = useState(false);
   const [city, setCity] = useState('');
   const apiKey = import.meta.env.VITE_API_KEY
-  console.log(weatherData)
+  console.log(weatherData, "teste")
+  console.log(graphicData, "teste 2")
 
   return (
     <InfoContext.Provider value={{apiKey, weatherData, setWeatherData, graphicData, setGraphicData, city, setCity, isFahrenheit, setIsFahrenheit}}>
