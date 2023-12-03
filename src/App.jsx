@@ -7,14 +7,13 @@ import { useState } from "react";
 function App() {
   const [weatherData, setWeatherData] = useState();
   const [graphicData, setGraphicData] = useState();
+  const [finalGraphicData, setFinalGraphicData] = useState();
   const [isFahrenheit, setIsFahrenheit] = useState(false);
   const [city, setCity] = useState('');
   const apiKey = import.meta.env.VITE_API_KEY
-  console.log(weatherData, "teste")
-  console.log(graphicData, "teste 2")
 
   return (
-    <InfoContext.Provider value={{apiKey, weatherData, setWeatherData, graphicData, setGraphicData, city, setCity, isFahrenheit, setIsFahrenheit}}>
+    <InfoContext.Provider value={{apiKey, weatherData, setWeatherData, graphicData, setGraphicData, city, setCity, isFahrenheit, setIsFahrenheit, finalGraphicData, setFinalGraphicData}}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />}></Route>

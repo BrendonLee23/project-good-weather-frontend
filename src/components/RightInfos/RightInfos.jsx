@@ -50,7 +50,7 @@ const RightInfosContainer = styled.div`
 const CityAndCoordinates = styled.div`
     display:flex;
     flex-direction: column;
-    margin-bottom:25px;
+    margin-bottom:10px;
     h1{
         font-family: Poppins;
         font-size: 80px;

@@ -4,7 +4,7 @@ import InfoContext from "../contexts/InfoContext";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function NextDayInfos() {
-    const { graphicData, isFahrenheit } = useContext(InfoContext);
+    const { finalGraphicData, isFahrenheit } = useContext(InfoContext);
 
     const formatXAxis = (tickItem) => {
         return format(new Date(tickItem), 'dd/MM');
@@ -21,7 +21,7 @@ export default function NextDayInfos() {
     return (
         <ResponsiveContainer width="90%" height={330}>
             <LineChart
-                data={graphicData}
+                data={finalGraphicData}
                 margin={{ top: 30, right: 30, left: 20, bottom: 0 }}
                 style={{ backgroundColor: '#fff' }}
             >
@@ -29,7 +29,7 @@ export default function NextDayInfos() {
                 <YAxis domain={[-5, 40]} />
                 <CartesianGrid strokeDasharray="6 6" />
                 <Tooltip formatter={temperatureFormatter} />
-                <Line type="monotone" dataKey="temperature" stroke="#8884d8" />
+                <Line type="monotone" dataKey="temperature" stroke="#4a2581" />
             </LineChart>
         </ResponsiveContainer>
     );

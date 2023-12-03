@@ -7,9 +7,10 @@ import axios from "axios";
 import InfoContext from "../../contexts/InfoContext";
 import { weatherDescriptions } from "../../utils/climate-data";
 import Swal from "sweetalert2";
+import dayjs from "dayjs";
 
 export default function LeftInfos() {
-    const { apiKey, setWeatherData, weatherData, setGraphicData, city, setCity, isFahrenheit, setIsFahrenheit } = useContext(InfoContext)
+    const { apiKey, setWeatherData, weatherData, graphicData, setGraphicData, city, setCity, isFahrenheit, setIsFahrenheit, setFinalGraphicData} = useContext(InfoContext)
     const apiURL = import.meta.env.VITE_API_URL;
     const currentDate = new Date();
     const optionsDate = { year: 'numeric', month: 'numeric', day: 'numeric' }
@@ -55,23 +56,30 @@ export default function LeftInfos() {
     const fetchGraphic = async () => {
         try {
             const response = await axios.get(`${apiURL}/forecast?q=${city}&appid=${apiKey}`);
-            if (response.data && response.data.list) {
-                const graphData = response?.data.list.map(item => ({
-                    timestamp: new Date(item.dt * 1000), 
-                    temperature: item.main.temp - 273.15, 
-                }));
-                setGraphicData(graphData);
-            } else {
-                console.error('Erro ao obter dados do gráfico: Resposta da API mal formatada.');
-            }
+            console.log(response)
+            setGraphicData(response.data);
         } catch (error) {
             console.error('Erro ao obter dados do gráfico:', error.message);
         }
     };
+
+    function extractInfosGraphic() {
+        if (graphicData && graphicData.list && Array.isArray(graphicData.list)) {
+            const graphData = graphicData.list.map(item => ({
+                timestamp: dayjs(item.dt_txt).format("DD/MM (ddd)"), 
+                temperature: item.main.temp - 273.15, 
+            }));
+            setFinalGraphicData(graphData);
+        } else {
+            console.error('Erro ao obter dados do gráfico: Resposta da API mal formatada.');
+        }
+    }
+    
     
     const fetchDataAndGraphic = async () => {
         await fetchData();
         await fetchGraphic();
+        extractInfosGraphic();
     };
     const handleSearch = () => {
         fetchDataAndGraphic();
