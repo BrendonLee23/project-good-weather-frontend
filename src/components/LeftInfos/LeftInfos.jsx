@@ -205,6 +205,7 @@ const InputContainer = styled.div`
         }
 `
 const ResumeInfos = styled.div`
+    width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
