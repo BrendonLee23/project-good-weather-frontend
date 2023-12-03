@@ -150,7 +150,7 @@ const LeftInfosContainer = styled.div`
     padding: 30px 20px 10px 30px;
     border: 1px solid #f3f1f1;
     @media (max-width: 574px) {
-        width: 100%;
+        width: 574px !important;
         height: 600px;
     }
 `

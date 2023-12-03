@@ -47,7 +47,6 @@ const RightInfosContainer = styled.div`
         width: 574px;
     }
 `
-
 const CityAndCoordinates = styled.div`
     display:flex;
     flex-direction: column;
@@ -85,11 +84,8 @@ const CityAndCoordinates = styled.div`
         color:#D8D8D8;
     }
 `
-
-
-
 const TitleOptions = styled.div`
-    width: 750px;
+    width: auto;
     height: 60px;
     display: flex;
     align-items: center;
@@ -123,7 +119,7 @@ const Footer = styled.div`
     bottom: 20px;
     position: fixed;
     @media (max-width: 574px) {
-        width: 100%; /* Ajusta a largura para 100% em telas menores que 574px */
+        width: 450px !important; /* Ajusta a largura para 100% em telas menores que 574px */
         position: relative;
         margin-top: 20px;
         text-align: center;
@@ -137,8 +133,10 @@ const Footer = styled.div`
         text-align: left;
         @media (max-width: 574px) {
         text-align: left;
-        margin-right: 20px;
         margin-bottom: 10px;
+    }
+    span{
+        color: #96A7F2;
     }
     }
 `

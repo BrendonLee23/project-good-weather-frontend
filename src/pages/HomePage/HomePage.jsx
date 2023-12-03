@@ -19,6 +19,7 @@ const Home = styled.div`
     justify-content: center; /* Centraliza os elementos horizontalmente */
     align-items: center; /* Centraliza os elementos verticalmente */
     @media (max-width: 574px) {
+        width: 574px !important;
         height: 100%;
         flex-direction: column; /* Altera a direção do layout para coluna em telas menores que 574px */
         justify-content: center;
