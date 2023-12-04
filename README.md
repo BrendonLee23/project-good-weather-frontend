@@ -7,6 +7,14 @@
 
 ## Weather App 🧥 
 
+####Seção Inicial:
+
+Bem-vindo ao projeto de Previsão do Tempo! Este aplicativo foi desenvolvido para fornecer informações precisas e intuitivas sobre o clima em qualquer lugar do mundo. Através de uma interface amigável, você pode visualizar dados climáticos atuais, previsões futuras e gráficos históricos para tomar decisões informadas sobre seu guarda-roupa e atividades diárias. Descubra se é necessário levar um guarda-chuva ou se é o momento ideal para um passeio ao ar livre. Esteja preparado para qualquer condição meteorológica com o nosso aplicativo de previsão do tempo fácil de usar.
+
+####Tecnologias Utilizadas:
+
+Este projeto faz uso de tecnologias modernas para proporcionar uma experiência de usuário eficiente e envolvente. O frontend é desenvolvido em React.js, utilizando Styled Components para a estilização, proporcionando uma aparência limpa e responsiva. A integração com a API de previsão do tempo é realizada através do Axios, permitindo uma comunicação eficiente com o backend. O estado global da aplicação é gerenciado pelo Context API do React, proporcionando uma gestão eficaz dos dados em toda a aplicação. Além disso, a biblioteca Day.js é utilizada para manipulação e formatação de datas, enquanto o pacote SweetAlert2 adiciona notificações visuais e interativas em casos de erros ou confirmações.
+
 #### SOBRE
 
 Este é um aplicativo simples para verificar as condições climáticas de uma cidade específica.
