@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import dayjs from "dayjs";
 
 export default function LeftInfos() {
-    const { apiKey, setWeatherData, weatherData, graphicData, setGraphicData, city, setCity, isFahrenheit, setIsFahrenheit, setFinalGraphicData} = useContext(InfoContext)
+    const { apiKey, setWeatherData, weatherData, city, setCity, isFahrenheit, setIsFahrenheit, setFinalGraphicData } = useContext(InfoContext)
     const apiURL = import.meta.env.VITE_API_URL;
     const currentDate = new Date();
     const optionsDate = { year: 'numeric', month: 'numeric', day: 'numeric' }
@@ -26,71 +26,68 @@ export default function LeftInfos() {
     const temperatureInFahrenheit = Math.round(kelvinToFahrenheit(temperatureInKelvin));
     const displayTemperature = isFahrenheit ? temperatureInFahrenheit : temperatureInCelsius;
     const weatherDescription = weatherData ? weatherData.weather[0].description : "- -";
-
     const translatedDescription = weatherDescriptions[weatherDescription] || weatherDescription;
 
     const fetchData = async () => {
         try {
             const response = await axios.get(`${apiURL}/weather?q=${city}&appid=${apiKey}`);
-            if (response.data && response.data.main) {
-                setWeatherData(response.data);
-            } else {
-                console.error('Erro ao obter dados do clima: Resposta da API mal formatada.');
-                Swal.fire({
-                    title: "Erro ao obter dados do clima",
-                    text: "Os dados retornados pela API não estão no formato esperado.",
-                    icon: "error",
-                    confirmButtonText: "😢 okay..."
-                })
-            }
+            handleWeatherApiResponse(response);
         } catch (error) {
-            console.error('Erro ao obter dados do clima:', error);
-            Swal.fire({
-                title: "Cidade não encontrada!",
-                text: "Verifique se o nome da cidade está correto ou insira uma cidade válida.",
-                icon: "error",
-                confirmButtonText: "😢 okay..."
-            })
+            handleApiError(error, 'Cidade não encontrada!');
         }
     };
     const fetchGraphic = async () => {
         try {
             const response = await axios.get(`${apiURL}/forecast?q=${city}&appid=${apiKey}`);
-            console.log(response.data)
-            setGraphicData(response.data);
+            console.log(response.data.list);  // Verifique os dados retornados
+            if (response.data && response.data.list && Array.isArray(response.data.list)) {
+                const graphData = response.data.list.map(item => ({
+                    timestamp: dayjs(item.dt_txt).format("DD/MM (ddd)"),
+                    temperature: item.main.temp - 273.15,
+                }));
+                setFinalGraphicData(graphData);
+                console.log(graphData);
+            } else {
+                console.error('Erro ao obter dados do gráfico: Resposta da API mal formatada.');
+            }            
         } catch (error) {
-            console.error('Erro ao obter dados do gráfico:', error.message);
+            handleApiError(error, 'Erro ao obter dados do gráfico:');
         }
     };
 
-    function extractInfosGraphic() {
-        console.log('graphicData:', graphicData);
-    
-        if (graphicData && graphicData.list && Array.isArray(graphicData.list)) {
-            const graphData = graphicData.list.map(item => {
-                console.log('item:', item);
-                return {
-                    timestamp: dayjs(item.dt_txt).format("DD/MM (ddd)"), 
-                    temperature: item.main.temp - 273.15, 
-                };
-            });
-            console.log('graphData:', graphData);
-            setFinalGraphicData(graphData);
+    const handleWeatherApiResponse = (response) => {
+        if (response.data && response.data.main) {
+            setWeatherData(response.data);
         } else {
-            console.error('Erro ao obter dados do gráfico: Resposta da API mal formatada.');
+            console.error('Erro ao obter dados do clima: Resposta da API mal formatada.');
+            Swal.fire({
+                title: "Erro ao obter dados do clima",
+                text: "Os dados retornados pela API não estão no formato esperado.",
+                icon: "error",
+                confirmButtonText: "😢 okay..."
+            });
         }
-    }
-    
-    
-    
+    };
+
+    const handleApiError = (error, errorMessage) => {
+        console.error('Erro ao obter dados:', error);
+        Swal.fire({
+            title: errorMessage,
+            text: "Verifique se o nome da cidade está correto ou insira uma cidade válida.",
+            icon: "error",
+            confirmButtonText: "😢 okay..."
+        });
+    };
+
     const fetchDataAndGraphic = async () => {
         await fetchData();
         await fetchGraphic();
-        extractInfosGraphic();
-    };
+    };  
+
     const handleSearch = () => {
         fetchDataAndGraphic();
     };
+
     const handleEnterPress = (event) => {
         if (event.key === 'Enter') {
             fetchDataAndGraphic();
