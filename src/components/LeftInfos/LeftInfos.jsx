@@ -51,7 +51,7 @@ export default function LeftInfos() {
                 console.error('Erro ao obter dados do gráfico: Resposta da API mal formatada.');
             }            
         } catch (error) {
-            handleApiError(error, 'Erro ao obter dados do gráfico:');
+            console.error('Erro ao obter dados do gráfico: Resposta da API mal formatada.');
         }
     };
 
@@ -70,7 +70,7 @@ export default function LeftInfos() {
     };
 
     const handleApiError = (error, errorMessage) => {
-        console.error('Erro ao obter dados:', error);
+        console.error('Erro ao obter dados do clima:', error);
         Swal.fire({
             title: errorMessage,
             text: "Verifique se o nome da cidade está correto ou insira uma cidade válida.",
