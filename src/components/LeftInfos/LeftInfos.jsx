@@ -56,7 +56,7 @@ export default function LeftInfos() {
     const fetchGraphic = async () => {
         try {
             const response = await axios.get(`${apiURL}/forecast?q=${city}&appid=${apiKey}`);
-            console.log(response)
+            console.log(response.data)
             setGraphicData(response.data);
         } catch (error) {
             console.error('Erro ao obter dados do gráfico:', error.message);
@@ -64,16 +64,23 @@ export default function LeftInfos() {
     };
 
     function extractInfosGraphic() {
+        console.log('graphicData:', graphicData);
+    
         if (graphicData && graphicData.list && Array.isArray(graphicData.list)) {
-            const graphData = graphicData.list.map(item => ({
-                timestamp: dayjs(item.dt_txt).format("DD/MM (ddd)"), 
-                temperature: item.main.temp - 273.15, 
-            }));
+            const graphData = graphicData.list.map(item => {
+                console.log('item:', item);
+                return {
+                    timestamp: dayjs(item.dt_txt).format("DD/MM (ddd)"), 
+                    temperature: item.main.temp - 273.15, 
+                };
+            });
+            console.log('graphData:', graphData);
             setFinalGraphicData(graphData);
         } else {
             console.error('Erro ao obter dados do gráfico: Resposta da API mal formatada.');
         }
     }
+    
     
     
     const fetchDataAndGraphic = async () => {
