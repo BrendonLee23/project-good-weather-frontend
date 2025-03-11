@@ -1,71 +1,72 @@
-### Link do deploy: 
+### Deploy link: 
 - [https://projeto25-levo-um-casaquinho-nu.vercel.app/](https://projeto25-levo-um-casaquinho-delta.vercel.app/)
 
 
 #
-# Projeto #25: Desafio Técnico - Levo um casaquinho? 
+# Project Good Weather
 
 ## Weather App 🧥 
 
-#### Seção Inicial:
+#### Home Section:
 
-Bem-vindo ao projeto de Previsão do Tempo! Este aplicativo foi desenvolvido para fornecer informações precisas e intuitivas sobre o clima em qualquer lugar do mundo. Através de uma interface amigável, você pode visualizar dados climáticos atuais, previsões futuras e gráficos históricos para tomar decisões informadas sobre seu guarda-roupa e atividades diárias. Descubra se é necessário levar um guarda-chuva ou se é o momento ideal para um passeio ao ar livre. Esteja preparado para qualquer condição meteorológica com o nosso aplicativo de previsão do tempo fácil de usar.
+Welcome to the Weather Forecast project! This app was developed to provide accurate and intuitive weather information for any location in the world. Through a user-friendly interface, you can view current weather data, future forecasts, and historical graphs to make informed decisions about your wardrobe and daily activities. Find out whether you need to bring an umbrella or if it’s the right time for a walk outside. Be prepared for any weather condition with our easy-to-use weather forecast app.
 
-#### Tecnologias Utilizadas:
+#### Technologies Used:
 
-Este projeto faz uso de tecnologias modernas para proporcionar uma experiência de usuário eficiente e envolvente. O frontend é desenvolvido em React.js, utilizando Styled Components para a estilização, proporcionando uma aparência limpa e responsiva. A integração com a API de previsão do tempo é realizada através do Axios, permitindo uma comunicação eficiente com o backend. O estado global da aplicação é gerenciado pelo Context API do React, proporcionando uma gestão eficaz dos dados em toda a aplicação. Além disso, a biblioteca Day.js é utilizada para manipulação e formatação de datas, enquanto o pacote SweetAlert2 adiciona notificações visuais e interativas em casos de erros ou confirmações.
+This project leverages modern technologies to provide an efficient and engaging user experience. The frontend is developed in React.js, using Styled Components for styling, providing a clean and responsive look. Integration with the weather API is done through Axios, allowing efficient communication with the backend. The global state of the application is managed by React's Context API, providing efficient data management throughout the application. Additionally, the Day.js library is used for date manipulation and formatting, while the SweetAlert2 package adds visual and interactive notifications in case of errors or confirmations.
 
-#### SOBRE
+#### ABOUT
 
-Este é um aplicativo simples para verificar as condições climáticas de uma cidade específica.
+This is a simple app to check the weather conditions of a specific city.
 
-## Como rodar: 
+## How to run: 
 
 
-1. Clone esse repositório
+1. Clone this repository
 
 ```bash
 git clone (link SSH do repositorio )
 ```
 
-2. Instale todas as dependências
+2. Install all dependencies
 
 ```bash
 npm i
 ```
 
-3. Crie um arquivo chamado `.env` e configure-o com base no exemplo `.env.example`. `VITE_API_URL` deverá conter o link da API (OpenWeatherMap)
+3. Create a file named .env and configure it based on the example .env.example. VITE_API_URL should contain the API link (OpenWeatherMap)
 
-4. Rode o projeto com o seguinte comando no seu terminal e abrir a aplicação pelo link gerado:
+4. Run the project with the following command in your terminal and open the application using the generated link:
 
-```bash
+bash
 npm run dev
-```
 
 
-## Como Usar:
 
-1 - Abra o navegador e acesse [https://projeto25-levo-um-casaquinho-nu.vercel.app/](https://projeto25-levo-um-casaquinho-delta.vercel.app/) para ver o aplicativo.
+## How to Use:
 
-2 - Na interface, insira o nome de uma cidade na caixa de pesquisa e pressione Enter ou clique no ícone de pesquisa.
+1 - Open your browser and go to [https://projeto25-levo-um-casaquinho-nu.vercel.app/](https://projeto25-levo-um-casaquinho-delta.vercel.app/) to view the app.
+
+2 - In the interface, enter the name of a city in the search box and press Enter or click the search icon.
 
 ![Alt text](image.png)
 
-3 - Os dados climáticos para a cidade inserida serão exibidos, incluindo a temperatura, descrição do clima e um gráfico de previsão de temperatura.
+3 - The weather data for the entered city will be displayed, including temperature, weather description, and a temperature forecast graph.
 
 ![Alt text](image-2.png)
 ![Alt text](image-1.png)
 
-## Funcionalidades
+## Features[s](url)
 
-#### Pesquisa de Cidade : 
-Insira o nome de uma cidade para obter informações climáticas.
+#### City Search: 
+Enter the name of a city to get weather information.
 
-#### Gráfico de Previsão: 
-Visualize uma previsão de temperatura para os próximos dias.
+#### Forecast Graph: 
+View a temperature forecast for the upcoming days.
 
-#### Recomendação de Roupas: 
-Com base na temperatura média, o aplicativo recomenda se você deve levar um casaquinho.
+#### Clothing Recommendation: 
+Based on the average temperature, the app recommends whether you should bring a jacket.
+
 
 
 #
