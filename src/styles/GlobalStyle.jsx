@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 
-
 export const GlobalStyle = createGlobalStyle`
     * {
         user-select: none;
@@ -9,15 +8,21 @@ export const GlobalStyle = createGlobalStyle`
         font-family: 'Poppins', sans-serif;
         margin: 0;
         padding: 0;
+        height: 100%;
     }
-    ::placeholder{
-            color: black;
-        }
-    body{
-        @media (max-width: 574px) {
-        background-color: black;
-        width: 574px !important;
-        height: 600px;
+
+    body {
+        background-color: ${({ theme }) => theme.background};
+        color: ${({ theme }) => theme.text};
+        transition: background-color 0.3s, color 0.3s; 
     }
+
+    .my-toast {
+        font-family: 'Arial', sans-serif;
+        font-size: 16px;
     }
-`
+
+    ::placeholder {
+        color: ${({ theme }) => theme.placeholder};
+    }
+`;

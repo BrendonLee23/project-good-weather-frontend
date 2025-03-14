@@ -1,8 +1,8 @@
 import { styled } from "styled-components"
-import TodayInfos from "../TodayInfos"
-import NextDayInfos from "../NextDaysInfos"
+import TodayInfos from "../../../components/TodayInfos"
+import NextDayInfos from "../../../components/NextDaysInfos"
 import { useContext, useState } from "react";
-import InfoContext from "../../contexts/InfoContext";
+import InfoContext from "../../../contexts/InfoContext";
 
 export default function RightInfos() {
     const { weatherData } = useContext(InfoContext)
@@ -16,7 +16,7 @@ export default function RightInfos() {
 
     return (
         <RightInfosContainer>
-            <TitleOptions selectedComponent={selectedComponent}>
+            <TitleOptions $selectedComponent={selectedComponent}>
                 <h1 onClick={() => handleTitleClick('today')}>Hoje</h1>
                 <h2 onClick={() => handleTitleClick('nextDays')}>Próximos dias</h2>
             </TitleOptions>
@@ -92,9 +92,10 @@ const TitleOptions = styled.div`
     justify-content: start;
     gap:50px;
     margin-bottom: 40px;
-    h1{
-        color: ${(props) =>
-        props.selectedComponent === 'today' ? 'black' : '#a7a7a7'};
+
+    h1 {
+        color: ${({ $selectedComponent }) => 
+            $selectedComponent === 'today' ? 'black' : '#a7a7a7'};
         font-family: Poppins;
         font-size: 28px;
         font-weight: 400;
@@ -103,9 +104,10 @@ const TitleOptions = styled.div`
         text-align: left;
         cursor: pointer;
     }
-    h2{
-        color: ${(props) =>
-        props.selectedComponent === 'nextDays' ? 'black' : '#a7a7a7'};
+
+    h2 {
+        color: ${({ $selectedComponent }) => 
+            $selectedComponent === 'nextDays' ? 'black' : '#a7a7a7'};
         font-family: Poppins;
         font-size: 28px;
         font-weight: 400;
@@ -114,7 +116,9 @@ const TitleOptions = styled.div`
         text-align: left;
         cursor: pointer;
     }
-`
+`;
+
+
 const Footer = styled.div`
     bottom: 20px;
     position: fixed;
