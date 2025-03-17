@@ -19,6 +19,6 @@ export const Footer = styled.div`
   }
 
   span {
-    color: #96a7f2;
+    color: #8e99cc;
   }
 `;

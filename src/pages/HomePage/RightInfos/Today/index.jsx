@@ -54,11 +54,14 @@ export default function TodayInfos() {
                 !weatherData ? (
                     <div></div>
                 ) : (
-                <ResultText positive={Number(avarageTemp) || 0}>
-                    {Number(avarageTemp) <= 20
-                        ? "Você deve levar um casaquinho! 🧥"
-                        : "Não, você não deve levar um casaquinho!"}
+                    <ResultText positive={Number(avarageTemp) || 0}>
+                    {Number(avarageTemp) < 15
+                        ? "O clima não está ideal, pode estar muito frio. ⛄"
+                        : Number(avarageTemp) > 30
+                        ? "O clima não está ideal, pode estar muito quente. 🥵"
+                        : "O clima está ideal. 😎"}
                 </ResultText>
+                
                 )
             }
         </>
