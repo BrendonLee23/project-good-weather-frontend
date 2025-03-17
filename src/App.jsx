@@ -9,17 +9,13 @@ import useGeolocation from "./hooks/useGeolocation";
 function App() {
   const [weatherData, setWeatherData] = useState();
   const [graphicData, setGraphicData] = useState();
-  const [finalGraphicData, setFinalGraphicData] = useState();
   const [isFahrenheit, setIsFahrenheit] = useState(false);
   const [city, setCity] = useState('');
   const [loading, setLoading] = useState(false);
   const dataAno = anoAtual();
   const cityLocation = useGeolocation();
-  console.log("Dados do clima no APP:", weatherData);
-
 
   return (
-
       <InfoContext.Provider
         value={{
           weatherData,
@@ -30,8 +26,6 @@ function App() {
           setCity,
           isFahrenheit,
           setIsFahrenheit,
-          finalGraphicData,
-          setFinalGraphicData,
           loading,
           setLoading,
           dataAno,

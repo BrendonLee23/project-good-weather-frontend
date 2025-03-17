@@ -69,10 +69,11 @@ const SkeletonText = styled.div`
 `;
 
 const SkeletonInputContainer = styled.div`
-  width: 600px;
+  width: 400px;
   height: 200px;
   display: flex;
   justify-content: center;
+  margin-bottom: 250px;
 `;
 
 const SkeletonInput = styled.div`
@@ -81,7 +82,6 @@ const SkeletonInput = styled.div`
   background-color: #e0e0e0;
   border-radius: 8px;
   margin-right: 10px;
-  margin-top: 30px;
   animation: ${shimmer} 1.5s infinite ease-in-out;
 `;
 

@@ -8,13 +8,23 @@ export const GlobalStyle = createGlobalStyle`
         font-family: 'Poppins', sans-serif;
         margin: 0;
         padding: 0;
+    }
+
+    html, body, #root {
         height: 100%;
+        margin: 0;
+        padding: 0;
     }
 
     body {
-        background-color: ${({ theme }) => theme.background};
         color: ${({ theme }) => theme.text};
         transition: background-color 0.3s, color 0.3s; 
+        display: flex;
+    }
+
+    #root {
+        display: flex;
+        flex-direction: column;
     }
 
     .my-toast {
@@ -26,3 +36,4 @@ export const GlobalStyle = createGlobalStyle`
         color: ${({ theme }) => theme.placeholder};
     }
 `;
+

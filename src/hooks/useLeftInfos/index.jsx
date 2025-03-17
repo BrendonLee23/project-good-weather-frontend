@@ -1,14 +1,14 @@
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br"; // Importe o locale correto para o idioma desejado
 import { useContext, useEffect, useState } from "react";
-import { getDayOfWeekInPortuguese, weatherDescriptions } from "../../utils/climate-data";
+import { getDayOfWeekInPortuguese, getNomeDiaSemana, kelvinToCelsius, kelvinToFahrenheit } from "../../utils/climate-data";
 import InfoContext from "../../contexts/InfoContext";
 
 const useLeftInfos = () => {
   const [currentDate, setCurrentDate] = useState(dayjs().format("DD/MM/YYYY"));
   const [currentDay, setCurrentDay] = useState(dayjs().format("dddd"));
   const [currentTime, setCurrentTime] = useState(dayjs().format("HH:mm"));
-  const { weatherData, setWeatherData, city, setCity, isFahrenheit, setIsFahrenheit, loading, setLoading, dataAno, cityLocation } = useContext(InfoContext)
+  const { weatherData, setWeatherData, city, setCity, isFahrenheit, setIsFahrenheit, loading, setLoading, dataAno, cityLocation, graphicData, setGraphicData } = useContext(InfoContext)
 
   useEffect(() => {
     const updateInfos = () => {
@@ -24,11 +24,26 @@ const useLeftInfos = () => {
     return () => clearInterval(interval); 
   }, []);
 
-  const weatherDescription = weatherData?.description?.toLowerCase();
-  const weatherColor = weatherDescriptions[weatherDescription]?.color || "#000000";
-  const iconUrl = weatherData
-      ? weatherData?.icon
-      : null;
+  
+  const times = graphicData?.list.map(item => getNomeDiaSemana(item.dt_txt));
+  const temperaturesInKelvin = graphicData?.list.map(item => item.main.temp);
+  const temperaturesInCelsius = temperaturesInKelvin?.map(kelvin => kelvinToCelsius(kelvin));
+  const temperaturesInFahrenheit = temperaturesInKelvin?.map(kelvin => kelvinToFahrenheit(kelvin));
+  const uniqueDays = new Map();
+  const unit = isFahrenheit ? "℉" : "℃";
+
+  times?.forEach((time, index) => {
+    if (!uniqueDays.has(time)) {
+        uniqueDays.set(time, {
+            time: time.toUpperCase(),
+            temp: Math.round(isFahrenheit ? temperaturesInFahrenheit[index] : temperaturesInCelsius[index])
+        });
+    }
+});
+
+  const data = Array.from(uniqueDays.values());
+
+  console.log(data)
 
   return {
     currentDate,
@@ -44,8 +59,10 @@ const useLeftInfos = () => {
     setLoading, 
     dataAno, 
     cityLocation,
-    weatherColor,
-    iconUrl
+    graphicData, 
+    setGraphicData,
+    data,
+    unit
   };
 };
 

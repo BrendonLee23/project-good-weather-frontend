@@ -6,21 +6,27 @@ export const ThemeContext = createContext();
 
     const lightTheme = {
     background: "#ffffff",
-    text: "#000000",
+    rightBackground: "#D8D8D8",
     placeholder: "#1c1c1c",
+    text: "#000000",
     border: '#f3f1f1',
     h1: '#030303',
-    input:  '#dedede'
+    input:  '#dedede',
+    h2: '#757575',
+    sugestion: '#08164e'
     };
 
 
     const darkTheme = {
+    background: "#090909",
+    rightBackground: "#242424",
     placeholder: "#c8c8c8",
-    background: "#121212",
     text: "#ffffff",
-    border: '#444',
+    border: '#0c0c0c',
     h1: '#e1dfdf',
-    input:  '#333'
+    input:  '#333',
+        h2: "#fefefe",
+    sugestion: '#2d56f8'
     };
 
     export const ThemeProvider = ({ children }) => {

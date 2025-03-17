@@ -1,20 +1,16 @@
 import styled from "styled-components";
-import { weatherDescriptions } from "../../../utils/climate-data";
-
 export const TextoVazio = styled.div`
     font-size: 60px;
 `
 
 export const LeftInfosContainer = styled.div`
-    position: fixed;
-    left: 0;
-    height: 100%;
     background-color: ${({ theme }) => theme.background};
+    height: 100%; 
+    width: 500px;
     color: ${({ theme }) => theme.text};
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 600px;
     padding: 30px 20px 10px 30px;
     border: 1px solid ${({ theme }) => theme.border};
     transition: all 0.3s ease-in-out;
@@ -54,7 +50,7 @@ export const InputContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative; /* Para posicionar o ícone dentro do input */
+    position: relative; 
     margin-top: 30px;
     margin-left: 20px;
     input {
@@ -65,19 +61,20 @@ export const InputContainer = styled.div`
         border: none;
         border-radius: 17px;
         box-shadow: 0px 24px 48px 0px #314f7c14;
-        padding-left: 70px; /* Espaço para o ícone */
+        padding-left: 70px;
         margin-right: 20px;
     } 
 
     ::placeholder {
         color: ${({ theme }) => theme.placeholder};
+        transition: all 0.3s ease-in-out;
     }
 
     div {
-        position: absolute; /* Posição absoluta dentro do input container */
-        left: 25px; /* Ajuste para alinhar dentro do input */
+        position: absolute;
+        left: 25px;
         top: 50%;
-        transform: translateY(-50%); /* Centralizar verticalmente */
+        transform: translateY(-50%);
         width: 24px;
         height: 24px;
         cursor: pointer;
@@ -87,30 +84,25 @@ export const InputContainer = styled.div`
     }
 `;
 
+export const InfosContainer = styled.div`
+    width: 500px;
+    height: 150px;
+`;
 
 export const ResumeInfos = styled.div`
-    width: 100%;
+    height: 150px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 70px;
+    justify-content: center ;
     margin-bottom: 25px;
-    position: relative;    
-
 `;
 
 export const StyledTemperature = styled.div`
-    width: 400px;
     height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 25px;
-    color: ${(props) => {
-        const weatherType = props.$weatherType || '';
-        const color = weatherDescriptions[weatherType]?.color || '#b6b4b4';
-        return color;
-    }};
     transition: all 0.3s ease-in-out;
 
     h1 {
@@ -128,7 +120,7 @@ export const StyledTemperature = styled.div`
     }
 `;
 
-export const Description = styled.h2`
+export const Description = styled.div`
     width: 500px;
     height: 100px;
     display: flex;
@@ -139,11 +131,6 @@ export const Description = styled.h2`
     line-height: 48px;
     letter-spacing: 0em;
     text-align: left;
-    color: ${(props) => {
-        const weatherType = props.$weatherType || '';
-        const color = weatherDescriptions[weatherType]?.color || '#9b9999';
-        return color;
-    }};
     transition: all 0.3s ease-in-out;
     h1 {
         display: flex;
@@ -155,7 +142,7 @@ export const Description = styled.h2`
 export const SwitchsDiv = styled.div`
     height: auto;
     bottom: 90px;
-    position: fixed;
+    position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -182,9 +169,13 @@ export const SwitchsDiv = styled.div`
 `;
 
 export const Footer = styled.div`
-    position: fixed;
+    width: 400px;
+    height: 120px;
+    position: absolute;
     bottom: 0;
-    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     p {
         display: flex;
         justify-content: center;

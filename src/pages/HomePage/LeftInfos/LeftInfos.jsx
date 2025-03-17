@@ -1,15 +1,15 @@
 import Casaco from "../../../assets/casaco.svg";
 import { FormControlLabel, FormGroup, Switch } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import { capitalizeFirstLetter, celsiusToFahrenheit } from "../../../utils/climate-data";
+import { capitalizeFirstLetter, celsiusToFahrenheit, weatherDescriptions } from "../../../utils/climate-data";
 import { ThemeContext } from '../../../contexts/ThemeContext';
 import { MagnifyingGlass, Moon, Sun } from "@phosphor-icons/react";
 import PropTypes from "prop-types";
 import useLeftInfos from "../../../hooks/useLeftInfos";
 import { SyncLoader } from "react-spinners";
 import SkeletonLoading from "../../../components/Skeleton/LeftInfos-Skeleton";
-import { Description, Footer, Header, InputContainer, LeftInfosContainer, ResumeInfos, StyledTemperature, SwitchsDiv, TextoVazio } from "./styles";
-import { toast, ToastContainer } from "react-toastify";
+import { Description, Footer, Header, InfosContainer, InputContainer, LeftInfosContainer, ResumeInfos, StyledTemperature, SwitchsDiv, TextoVazio } from "./styles";
+import { toast } from "react-toastify";
 
 LeftInfos.propTypes = {
     fetchData: PropTypes.func.isRequired,
@@ -31,8 +31,6 @@ export default function LeftInfos(props) {
             setLoading, 
             dataAno, 
             cityLocation,
-            weatherColor,
-            iconUrl
         } = useLeftInfos()
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
@@ -50,6 +48,13 @@ export default function LeftInfos(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cityLocation, setLoading, setWeatherData])
 
+    const weatherDescription = weatherData?.description?.toLowerCase();
+
+    const weatherColor = isDarkMode
+        ? weatherDescriptions[weatherDescription]?.dark || "#484848"
+        : weatherDescriptions[weatherDescription]?.color || "#484848"; 
+    const iconUrl = weatherData ? weatherData?.icon : null;
+
     const fetchDataAndGraphic = async () => {
         if(!city){
             toast.warn('Você precisa digitar um lugar!', {
@@ -65,9 +70,7 @@ export default function LeftInfos(props) {
             return
         }
         await fetchData(city, setLoading, setWeatherData, isDarkMode);
-        // await fetchGraphic();
-    };  
-
+    };
 
     const handleSearch = () => {
         fetchDataAndGraphic();
@@ -102,53 +105,54 @@ return (
                         style={{ color: isDarkMode ? "#fff" : "#000"}}
                     />
                 </InputContainer>
-                {loading ? (
-                    <ResumeInfos style={{  marginTop: "170px" }}>
-                        <SyncLoader
-                            color="#bfcdcd"
-                            cssOverride={{}}
-                            loading
-                            margin={10}
-                            size={20}
-                            speedMultiplier={1}
-                        />
-                    </ResumeInfos>
-                ) : (
-                    <ResumeInfos>
-                        <StyledTemperature>
-                            {weatherData === undefined ? (
-                                ""
-                            ) : (
-                                <>
-                                    {isFahrenheit ? (
-                                        <>
-                                            <h1 style={{ color: weatherColor, display: "flex", alignItems: "center" }}>
-                                                {iconUrl && <img src={iconUrl} alt="Weather Icon" style={{ width: "100px", height: "100px" }} />}
-                                                {celsiusToFahrenheit(weatherData?.temperature)}°F
-                                            </h1>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <h1 style={{ color: weatherColor, display: "flex", alignItems: "center" }}>
-                                                {iconUrl && <img src={iconUrl} alt="Weather Icon" style={{ width: "100px", height: "100px" }} />}
-                                                {weatherData?.temperature}°C
-                                            </h1>
-                                        </>
-                                    )}
-                                </>
-                            )}
-                        </StyledTemperature>
-                        <Description>
-                            {weatherData === undefined ? (
-                                <TextoVazio>{"--"}</TextoVazio>
-                            ) : (
-                                <>
-                                    <h1 style={{ color: weatherColor, fontSize: "35px" }}>{capitalizeFirstLetter(weatherData?.description)}</h1>
-                                </>
-                            )}
-                        </Description>
-                    </ResumeInfos>
-                )}
+                <InfosContainer>
+                    {loading ? (
+                        <ResumeInfos>
+                            <SyncLoader
+                                color="#bfcdcd"
+                                cssOverride={{}}
+                                loading
+                                size={20}
+                                speedMultiplier={1}
+                            />
+                        </ResumeInfos>
+                    ) : (
+                        <ResumeInfos>
+                            <StyledTemperature weatherColor={weatherColor}>
+                                {weatherData === undefined ? (
+                                    ""
+                                ) : (
+                                    <>
+                                        {isFahrenheit ? (
+                                            <>
+                                                <h1 style={{ color: weatherColor, display: "flex", alignItems: "center" }}>
+                                                    {iconUrl && <img src={iconUrl} alt="Weather Icon" style={{ width: "100px", height: "100px" }} />}
+                                                    {celsiusToFahrenheit(weatherData?.temperature)}°F
+                                                </h1>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <h1 style={{ color: weatherColor, display: "flex", alignItems: "center" }}>
+                                                    {iconUrl && <img src={iconUrl} alt="Weather Icon" style={{ width: "100px", height: "100px" }} />}
+                                                    {weatherData?.temperature}°C
+                                                </h1>
+                                            </>
+                                        )}
+                                    </>
+                                )}
+                            </StyledTemperature>
+                            <Description weatherColor={weatherColor}>
+                                {weatherData === undefined ? (
+                                    <TextoVazio>{"--"}</TextoVazio>
+                                ) : (
+                                    <>
+                                        <h1 style={{ color: weatherColor, fontSize: "35px" }}>{capitalizeFirstLetter(weatherData?.description)}</h1>
+                                    </>
+                                )}
+                            </Description>
+                        </ResumeInfos>
+                    )}
+                </InfosContainer>
                 <SwitchsDiv>
                     <hr />
                     <h2>{currentDate}</h2>
@@ -175,19 +179,6 @@ return (
                 </Footer>
             </>
         )}
-            <ToastContainer
-            style={{ height: '0' }} 
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            />
     </LeftInfosContainer>
 );
 }
-

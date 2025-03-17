@@ -1,8 +1,7 @@
 import axios from "axios";
 import dayjs from "dayjs";
-import { roundTemperature } from "../utils/climate-data";
+import { ajustarLatitude, ajustarLongitude, removeAcentuacao, roundTemperature } from "../utils/climate-data";
 import { toast } from "react-toastify";
-
 
 export async function fetchCurrentWeather(city, setLoading, setWeatherData, isDarkMode) {
     
@@ -29,10 +28,12 @@ export async function fetchCurrentWeather(city, setLoading, setWeatherData, isDa
             feelsLike: data.main.feels_like,
             minTemp: roundTemperature(data.main.temp_min),
             maxTemp: roundTemperature(data.main.temp_max),
+            lat: ajustarLatitude(data.coord.lat),
+            lon: ajustarLongitude(data.coord.lon),
             humidity: data.main.humidity,
             pressure: data.main.pressure,
             windSpeed: data.wind.speed,
-            description: data.weather[0].description,
+            description: removeAcentuacao(data.weather[0].description),
             icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`,
             updatedAt: dayjs.unix(data.dt).format("HH:mm:ss")
         };
